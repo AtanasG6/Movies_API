@@ -54,7 +54,7 @@ namespace Movies_API.Controllers
             //    return BadRequest(ModelState);
             //}
 
-            if (Cinema.movieList.FirstOrDefault(u=>u.Name.ToLower() == movieDTO.Name.ToLower()) != null)
+            if (Cinema.movieList.FirstOrDefault(u => u.Name.ToLower() == movieDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Movie already exists!");
                 return BadRequest(ModelState);
@@ -72,7 +72,31 @@ namespace Movies_API.Controllers
             movieDTO.Id = Cinema.movieList.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
             Cinema.movieList.Add(movieDTO);
 
-            return CreatedAtRoute("GetMovie", new { id = movieDTO.Id}, movieDTO);
+            return CreatedAtRoute("GetMovie", new { id = movieDTO.Id }, movieDTO);
         }
+
+        [HttpDelete("{id:int}", Name = "DeleteMovie")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteVilla(int id) //with IActionResult you do not define the return type
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            
+            var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            Cinema.movieList.Remove(movie);
+
+            return NoContent();
+        }
+
     }
 }
