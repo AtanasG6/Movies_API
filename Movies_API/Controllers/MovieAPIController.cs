@@ -85,7 +85,7 @@ namespace Movies_API.Controllers
             {
                 return BadRequest();
             }
-            
+
             var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id);
 
             if (movie == null)
@@ -98,5 +98,20 @@ namespace Movies_API.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id:int}", Name = "UpdateMovie")] //update whole record
+        public IActionResult UpdateMovie(int id, [FromBody] MovieDTO movieDTO)
+        {
+            if (movieDTO == null || id != movieDTO.Id)
+            {
+                return BadRequest();
+            }
+            var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id);
+            movie.Name = movieDTO.Name;
+            movie.Description = movieDTO.Description;
+
+            return NoContent();
+        }
+
+        //[HttpPatch] // update one of the field of the object
     }
 }
