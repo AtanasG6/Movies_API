@@ -24,7 +24,7 @@ namespace Movies_API.Controllers
                 return BadRequest();
             }
 
-            var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id)
+            var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id);
 
 
             if (movie == null)
