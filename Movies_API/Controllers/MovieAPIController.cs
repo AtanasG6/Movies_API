@@ -16,7 +16,10 @@ namespace Movies_API.Controllers
             return Ok(Cinema.movieList);
         }
 
-        [HttpGet("{id: int}")]
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public ActionResult<MovieDTO> GetMovie(int id)
         {
             if (id == 0)
