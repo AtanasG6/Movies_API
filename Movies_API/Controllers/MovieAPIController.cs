@@ -11,15 +11,28 @@ namespace Movies_API.Controllers
     public class MovieAPIController : Controller
     {
         [HttpGet]
-        public IEnumerable<MovieDTO> GetMovies()
+        public ActionResult<IEnumerable<MovieDTO>> GetMovies()
         {
-            return Cinema.movieList;
+            return Ok(Cinema.movieList);
         }
 
-        [HttpGet("id")]
-        public MovieDTO GetMovie(int id)
+        [HttpGet("{id: int}")]
+        public ActionResult<MovieDTO> GetMovie(int id)
         {
-            return Cinema.movieList.FirstOrDefault(u => u.Id == id);
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+
+            var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id)
+
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movie);
         }
     }
 }
