@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Movies_API.Data;
 using Movies_API.Models;
 using Movies_API.Models.Dto;
@@ -99,6 +100,8 @@ namespace Movies_API.Controllers
         }
 
         [HttpPut("{id:int}", Name = "UpdateMovie")] //update whole record
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult UpdateMovie(int id, [FromBody] MovieDTO movieDTO)
         {
             if (movieDTO == null || id != movieDTO.Id)
@@ -112,6 +115,30 @@ namespace Movies_API.Controllers
             return NoContent();
         }
 
-        //[HttpPatch] // update one of the field of the object
+        [HttpPatch("{id:int}", Name = "UpdatePartialMovie")] // update one of the field of the object
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpdatePartialMovie(int id, JsonPatchDocument<MovieDTO> patchDTO)
+        {
+            if (patchDTO == null || id == 0)
+            {
+                return BadRequest();
+            }
+
+            var movie = Cinema.movieList.FirstOrDefault(u => u.Id == id);
+
+            if (movie == null)
+            {
+                return BadRequest();
+            }
+            patchDTO.ApplyTo(movie, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }
