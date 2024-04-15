@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Movies_API.Data;
 using Movies_API.Models;
 using Movies_API.Models.Dto;
 
@@ -12,11 +13,13 @@ namespace Movies_API.Controllers
         [HttpGet]
         public IEnumerable<MovieDTO> GetMovies()
         {
-            return new List<MovieDTO>() { 
-                new MovieDTO() { Id = 1, Name = "Lord of the Rings" },
-                new MovieDTO() { Id = 2, Name = "Jaws" },
-                
-            };
+            return Cinema.movieList;
+        }
+
+        [HttpGet]
+        public MovieDTO GetMovie(int id)
+        {
+            return Cinema.movieList.FirstOrDefault(u => u.Id == id);
         }
     }
 }
