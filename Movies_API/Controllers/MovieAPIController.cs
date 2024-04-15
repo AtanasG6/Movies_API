@@ -41,5 +41,26 @@ namespace Movies_API.Controllers
 
             return Ok(movie);
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<MovieDTO> CreateMovie([FromBody]MovieDTO movieDTO)
+        {
+            if (movieDTO == null)
+            {
+                return BadRequest(movieDTO);
+            }
+            if (movieDTO.Id > 0)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            movieDTO.Id = Cinema.movieList.OrderByDescending(u=>u.Id).FirstOrDefault().Id++;
+            Cinema.movieList.Add(movieDTO);
+
+            return Ok(movieDTO);
+        }
     }
 }
