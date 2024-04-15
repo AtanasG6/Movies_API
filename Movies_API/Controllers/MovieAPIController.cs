@@ -43,11 +43,23 @@ namespace Movies_API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<MovieDTO> CreateMovie([FromBody] MovieDTO movieDTO)
         {
+            //without [ApiController]
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+
+            if (Cinema.movieList.FirstOrDefault(u=>u.Name.ToLower() == movieDTO.Name.ToLower()) != null)
+            {
+                ModelState.AddModelError("CustomError", "Movie already exists!");
+                return BadRequest(ModelState);
+            }
+
             if (movieDTO == null)
             {
                 return BadRequest(movieDTO);
@@ -57,7 +69,7 @@ namespace Movies_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            movieDTO.Id = Cinema.movieList.OrderByDescending(u => u.Id).FirstOrDefault().Id++;
+            movieDTO.Id = Cinema.movieList.OrderByDescending(u => u.Id).FirstOrDefault().Id + 1;
             Cinema.movieList.Add(movieDTO);
 
             return CreatedAtRoute("GetMovie", new { id = movieDTO.Id}, movieDTO);
