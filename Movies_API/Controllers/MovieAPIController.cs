@@ -16,7 +16,7 @@ namespace Movies_API.Controllers
             return Cinema.movieList;
         }
 
-        [HttpGet]
+        [HttpGet("id")]
         public MovieDTO GetMovie(int id)
         {
             return Cinema.movieList.FirstOrDefault(u => u.Id == id);
