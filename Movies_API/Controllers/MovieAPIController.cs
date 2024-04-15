@@ -16,7 +16,7 @@ namespace Movies_API.Controllers
             return Ok(Cinema.movieList);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetMovie")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -46,7 +46,7 @@ namespace Movies_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<MovieDTO> CreateMovie([FromBody]MovieDTO movieDTO)
+        public ActionResult<MovieDTO> CreateMovie([FromBody] MovieDTO movieDTO)
         {
             if (movieDTO == null)
             {
@@ -57,10 +57,10 @@ namespace Movies_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            movieDTO.Id = Cinema.movieList.OrderByDescending(u=>u.Id).FirstOrDefault().Id++;
+            movieDTO.Id = Cinema.movieList.OrderByDescending(u => u.Id).FirstOrDefault().Id++;
             Cinema.movieList.Add(movieDTO);
 
-            return Ok(movieDTO);
+            return CreatedAtRoute("GetMovie", new { id = movieDTO.Id}, movieDTO);
         }
     }
 }
