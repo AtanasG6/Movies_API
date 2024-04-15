@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies_API", "Movies_API\Movies_API.csproj", "{DF9E80C5-9AE5-4E39-8B51-24C23D474035}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF9E80C5-9AE5-4E39-8B51-24C23D474035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF9E80C5-9AE5-4E39-8B51-24C23D474035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF9E80C5-9AE5-4E39-8B51-24C23D474035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF9E80C5-9AE5-4E39-8B51-24C23D474035}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7ED3F8D-3152-458A-9F4B-B8743C22EC0C}
+	EndGlobalSection
+EndGlobal
